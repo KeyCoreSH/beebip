@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BeeBip · Transformando o caminho até a escola</title>
+<meta name="description" content="BeeBip é uma plataforma de transporte escolar que conecta famílias, motoristas e escolas: embarque confirmado, aviso na hora certa e gestão profissional para o motorista.">
+<meta property="og:title" content="BeeBip · Transformando o caminho até a escola">
+<meta property="og:description" content="Plataforma de transporte escolar que conecta famílias, motoristas e escolas.">
+<meta property="og:image" content="assets/icon.png">
+<link rel="icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root{--ambar:#FFB600;--ambar-100:#FFF1C2;--creme:#FFFDEA;--branco:#fff;--preto:#000;--tinta:#5C5648;--linha:#E6E1C3;--floresta:#2D4D31;--carvao:#251D20;--verde-vivo:#4ADE80;--verde-100:#DDEFE0;
+  --f:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--creme);color:var(--preto);font-family:var(--f);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-stretch:118%;font-weight:500;line-height:1.05;margin:0;letter-spacing:-.01em;text-wrap:balance}
+p{margin:0 0 14px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--preto);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+@media(max-width:640px){.wrap{padding:0 18px}}
+.btn{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--preto);border-radius:999px;padding:12px 24px;font-weight:600;text-decoration:none;background:var(--preto);color:var(--creme);font-size:16px}
+.btn.sec{background:transparent;color:var(--preto)}
+.btn:hover{transform:translateY(-1px)}
+@media(prefers-reduced-motion:reduce){.btn:hover{transform:none}html{scroll-behavior:auto}}
+
+header.top{background:var(--ambar)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0}
+.marca{font-stretch:112%;font-weight:800;font-size:28px;letter-spacing:-.02em;text-decoration:none}
+.bar nav{display:flex;gap:22px;align-items:center;font-size:15px;font-weight:500}
+.bar nav a{text-decoration:none}
+.bar nav a:hover{text-decoration:underline}
+.bar nav a.btn{padding:8px 18px;font-size:14.5px;color:var(--creme)}
+@media(max-width:720px){.bar nav a:not(.btn){display:none}}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:36px 0 84px}
+.hero h1{font-size:clamp(42px,6.6vw,88px);font-weight:400}
+.hero h1 b{font-weight:800}
+.hero p.sub{font-size:clamp(18px,2vw,22px);max-width:36ch;margin:22px 0 28px}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px}
+.hero .arte{justify-self:center;width:min(100%,400px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 38%,#FFD34D 0,#FFC21A 55%,#FFB600 100%);border:1px solid var(--preto);display:grid;place-items:center;position:relative}
+.hero .arte img{width:74%;height:auto}
+.aviso{position:absolute;left:-6%;bottom:8%;background:var(--branco);border-radius:18px;padding:12px 16px;box-shadow:0 10px 30px rgba(0,0,0,.18);font-size:14px;display:flex;gap:10px;align-items:center;max-width:270px}
+.aviso i{flex:none;width:34px;height:34px;border-radius:9px;background:var(--ambar);display:grid;place-items:center;font-style:normal;font-weight:800;font-size:11px}
+.aviso small{color:var(--tinta);display:block;font-size:12px}
+@media(max-width:860px){.hero{grid-template-columns:1fr;padding-bottom:56px}.hero .arte{width:min(78%,300px)}.aviso{left:-10%}}
+
+section{padding:76px 0}
+.eyebrow{font-size:14px;font-weight:600;color:var(--tinta);text-transform:lowercase;margin-bottom:10px}
+h2{font-size:clamp(32px,4.4vw,56px);margin-bottom:16px}
+.lead{font-size:20px;max-width:60ch}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:34px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:34px}
+@media(max-width:860px){.g3,.g2{grid-template-columns:1fr}}
+.box{border:2px solid var(--preto);border-radius:20px;padding:24px;background:var(--creme)}
+.box h3{font-size:26px;margin-bottom:10px}
+.box p:last-child{margin-bottom:0}
+.box.flo{border-color:var(--floresta)}
+.box.flo h3{color:var(--floresta);text-transform:lowercase}
+.amb{background:var(--ambar)}
+.esc{background:var(--carvao);color:var(--creme)}
+.esc .eyebrow{color:#CFC8B4}
+.passos{counter-reset:p;display:grid;gap:0;margin-top:34px;border-top:1px solid rgba(255,253,234,.25)}
+.passo{counter-increment:p;display:grid;grid-template-columns:90px 1fr 1.4fr;gap:20px;padding:26px 0;border-bottom:1px solid rgba(255,253,234,.25);align-items:baseline}
+.passo::before{content:"0" counter(p);font-size:40px;font-stretch:118%;font-weight:500;color:var(--ambar);font-variant-numeric:tabular-nums}
+.passo h3{font-size:26px}
+.passo p{margin:0;color:#EDE8D2}
+@media(max-width:860px){.passo{grid-template-columns:60px 1fr}.passo p{grid-column:2}}
+.circulos{display:flex;flex-wrap:wrap;margin-top:34px}
+.circ{width:210px;height:210px;border:1px solid var(--preto);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px;margin-right:-16px}
+.circ b{font-size:22px;font-stretch:118%;font-weight:600;line-height:1.1}
+.circ span{font-size:14px;margin-top:8px;line-height:1.3}
+@media(max-width:640px){.circ{width:160px;height:160px;padding:18px}.circ b{font-size:18px}.circ span{font-size:12.5px}}
+.restrita{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;border:2px solid var(--preto);border-radius:24px;padding:30px;background:var(--branco)}
+@media(max-width:720px){.restrita{grid-template-columns:1fr}}
+footer{border-top:2px solid var(--preto);padding:28px 0 48px;font-size:14.5px;color:var(--tinta)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:space-between}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="bar">
+    <a class="marca" href="./">Beebip</a>
+    <nav aria-label="Principal">
+      <a href="#problema">O problema</a><a href="#como">Como funciona</a><a href="#plataforma">A plataforma</a><a href="#estagio">Estágio</a>
+      <a class="btn" href="docs/">Área restrita</a>
+    </nav>
+  </div>
+  <div class="hero">
+    <div>
+      <h1>Transformando o caminho <b>até a escola</b></h1>
+      <p class="sub">O BeeBip conecta famílias, motoristas de transporte escolar e escolas em um só lugar, com segurança, transparência e tranquilidade.</p>
+      <div class="cta"><a class="btn" href="#como">Conheça o projeto</a><a class="btn sec" href="docs/">Documentação do projeto</a></div>
+    </div>
+    <div class="arte">
+      <img src="assets/beebip-logo.png" alt="Logo BeeBip, com uma abelha no lugar da letra e" width="628" height="269">
+      <div class="aviso" aria-hidden="true"><i>Bee</i><div><b>BeeBip</b> · agora<small>Maria Júlia desembarcou na escola</small></div></div>
+    </div>
+  </div>
+</div></header>
+
+<main>
+<section id="problema"><div class="wrap">
+  <div class="eyebrow">o problema</div>
+  <h2>Depois que a van sai, a família fica sem notícia</h2>
+  <p class="lead">O transporte escolar faz parte da rotina de milhões de estudantes, mas ainda funciona com caderno, planilha e grupo de WhatsApp. Falta informação para quem espera e ferramenta para quem dirige.</p>
+  <div class="g3">
+    <div class="box"><h3>Famílias</h3><p>Não sabem se o filho embarcou, se já chegou na escola ou a que horas volta para casa. A dúvida vira ansiedade todos os dias.</p></div>
+    <div class="box"><h3>Motoristas</h3><p>Controlam mensalidades à mão, organizam rotas de cabeça e respondem dezenas de mensagens por dia, uma por uma.</p></div>
+    <div class="box"><h3>Escolas</h3><p>Têm pouca visibilidade sobre quem transporta seus alunos, mas são procuradas pelos pais quando algo dá errado.</p></div>
+  </div>
+</div></section>
+
+<section id="como" class="esc"><div class="wrap">
+  <div class="eyebrow">como funciona</div>
+  <h2>Um gesto do motorista, um aviso para a família</h2>
+  <p class="lead" style="color:#EDE8D2">Ouvindo pais e motoristas, aprendemos que o que mais tranquiliza não é ficar olhando o mapa. É receber a confirmação certa, na hora certa.</p>
+  <div class="passos">
+    <div class="passo"><h3>A van está chegando</h3><p>A família recebe um aviso quando a van se aproxima, para estar pronta na porta sem precisar perguntar.</p></div>
+    <div class="passo"><h3>Embarque confirmado</h3><p>O motorista confirma o embarque de cada aluno com um gesto no app, mesmo sem sinal de internet.</p></div>
+    <div class="passo"><h3>Trajeto acompanhado</h3><p>Durante a viagem, os responsáveis podem acompanhar a van no mapa e ver a previsão de chegada.</p></div>
+    <div class="passo"><h3>Chegou na escola</h3><p>O desembarque é registrado e a família recebe a confirmação. O mesmo vale para a volta para casa.</p></div>
+  </div>
+</div></section>
+
+<section id="plataforma"><div class="wrap">
+  <div class="eyebrow">a plataforma</div>
+  <h2>Valor para as três pontas</h2>
+  <div class="g3">
+    <div class="box flo"><h3>para os pais</h3><p>Tranquilidade. Avisos de embarque e desembarque, acompanhamento do trajeto, previsão de chegada, histórico das viagens e contato direto com o motorista.</p></div>
+    <div class="box flo"><h3>para os motoristas</h3><p>Gestão profissional. Cadastro de alunos, rotas por turno, controle de mensalidades, aviso de falta e comunicação com as famílias em um só lugar.</p></div>
+    <div class="box flo"><h3>para as escolas</h3><p>Visibilidade. Um canal organizado com os transportadores e informação sobre chegadas e saídas dos alunos.</p></div>
+  </div>
+  <div class="circulos" aria-label="Princípios do produto">
+    <div class="circ"><b>Segurança</b><span>em primeiro lugar</span></div>
+    <div class="circ"><b>Transparência</b><span>em todas as relações</span></div>
+    <div class="circ"><b>Simplicidade</b><span>para quem usa todo dia</span></div>
+    <div class="circ"><b>Privacidade</b><span>dados de crianças tratados com cuidado</span></div>
+  </div>
+</div></section>
+
+<section id="estagio" class="amb"><div class="wrap">
+  <div class="eyebrow" style="color:var(--preto)">estágio do projeto</div>
+  <h2>Pensado por pais, para todos os filhos</h2>
+  <p class="lead">A BeeBip nasceu no Recife, da vivência dos fundadores com o transporte escolar dos próprios filhos. A startup venceu a Pré-Incubação do Porto Digital, segue no programa de incubação e prepara o piloto com motoristas e famílias da cidade.</p>
+  <div class="g2">
+    <div class="box" style="background:var(--ambar)"><h3>Agora</h3><p>Produto, arquitetura e backlog definidos para o app de responsáveis e motoristas, o painel web e a plataforma que sustenta tudo.</p></div>
+    <div class="box" style="background:var(--ambar)"><h3>Em seguida</h3><p>Piloto em Recife, com embarque, desembarque e avisos funcionando na rotina real de uma rota escolar.</p></div>
+  </div>
+</div></section>
+
+<section id="docs"><div class="wrap">
+  <div class="restrita">
+    <div>
+      <div class="eyebrow">área restrita</div>
+      <h2 style="font-size:clamp(26px,3.2vw,38px)">Documentação do projeto</h2>
+      <p style="margin:0;max-width:62ch">PRD, especificação técnica e backlog organizado por épicos, histórias, sprints e tasks. O acesso é protegido por senha e reservado ao time e aos parceiros do projeto.</p>
+    </div>
+    <a class="btn" href="docs/">Entrar com senha</a>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <span>BeeBip · Recife, Pernambuco · <a href="https://www.beebip.com.br">www.beebip.com.br</a> · <a href="mailto:contato@beebip.com.br">contato@beebip.com.br</a></span>
+  <span>Página do projeto mantida pela KeyCore</span>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Documentação em texto claro e artefatos confidenciais ficam fora do repositório.
+# O que vai para o Pages é só a landing e o conteúdo cifrado em site/docs/conteudo.bin.
+/docs/
+/artefatos/
+.DS_Store
+__pycache__/
+.env
