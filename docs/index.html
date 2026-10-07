@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>BeeBip · Área restrita</title>
+<link rel="icon" href="../assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root{--ambar:#FFB600;--creme:#FFFDEA;--preto:#000;--tinta:#5C5648;--erro:#B3261E;--erro-100:#FDE3E0;--f:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--ambar);color:var(--preto);font-family:var(--f);font-size:17px;line-height:1.5;display:grid;grid-template-rows:auto 1fr;grid-template-columns:minmax(0,1fr);-webkit-font-smoothing:antialiased}
+:focus-visible{outline:3px solid var(--preto);outline-offset:3px}
+.bar{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between;align-items:center;padding:22px 28px;font-size:14.5px}
+@media(max-width:640px){.bar{padding:18px}.campo{flex-wrap:wrap}.campo button{flex:1}}
+.marca{font-stretch:112%;font-weight:800;font-size:28px;letter-spacing:-.02em;text-decoration:none;color:inherit}
+.bar a{color:inherit}
+main{display:grid;place-items:center;padding:24px 18px 72px}
+.card{width:min(100%,460px);background:var(--creme);border:2px solid var(--preto);border-radius:28px;padding:34px 30px}
+.card img{width:150px;height:auto;display:block;margin-bottom:18px}
+h1{font-stretch:118%;font-weight:500;font-size:34px;line-height:1.05;margin:0 0 10px;letter-spacing:-.01em}
+p{margin:0 0 20px;color:var(--tinta)}
+label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.campo{display:flex;gap:8px}
+input{flex:1;min-width:0;font:inherit;border:2px solid var(--preto);border-radius:999px;padding:12px 18px;background:#fff}
+button{font:inherit;font-weight:600;border:2px solid var(--preto);border-radius:999px;padding:12px 24px;background:var(--preto);color:var(--creme);cursor:pointer}
+button[disabled]{opacity:.6;cursor:progress}
+.ver{background:none;border:0;color:var(--tinta);padding:8px 0;font-size:14px;font-weight:500;text-decoration:underline}
+#msg{min-height:24px;margin:14px 0 0;font-size:15px;color:var(--tinta)}
+#msg.err{color:var(--erro);font-weight:600}
+noscript p{color:var(--erro)}
+</style>
+</head>
+<body>
+<div class="bar"><a class="marca" href="../">Beebip</a><a href="../">Voltar para a página do projeto</a></div>
+<main>
+  <form class="card" id="f" autocomplete="off">
+    <img src="../assets/beebip-logo.png" alt="BeeBip" width="628" height="269">
+    <h1>Área restrita</h1>
+    <p>Documentação do projeto: PRD, SPEC e backlog. Informe a senha de acesso.</p>
+    <label for="s">Senha</label>
+    <div class="campo"><input id="s" type="password" required autofocus autocomplete="current-password" autocapitalize="off" spellcheck="false"><button id="b">Entrar</button></div>
+    <button type="button" class="ver" id="ver">Mostrar senha</button>
+    <div id="msg" role="status" aria-live="polite"></div>
+    <noscript><p>Esta página precisa de JavaScript para abrir o conteúdo protegido.</p></noscript>
+  </form>
+</main>
+<script>
+(() => {
+// O conteúdo fica cifrado (AES-GCM 256, chave derivada da senha por PBKDF2-SHA256). Sem a senha, o arquivo conteudo.bin não abre.
+const ITER = 600000, K = 'beebip-docs';
+const $ = id => document.getElementById(id);
+const msg = (t, err) => { $('msg').textContent = t; $('msg').className = err ? 'err' : '' };
+let blob;
+async function abrir(senha){
+  blob ??= new Uint8Array(await (await fetch('conteudo.bin', {cache: 'no-cache'})).arrayBuffer());
+  if (new TextDecoder().decode(blob.slice(0, 4)) !== 'BBP1') throw new Error('formato');
+  const salt = blob.slice(4, 20), iv = blob.slice(20, 32), dados = blob.slice(32);
+  const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(senha), 'PBKDF2', false, ['deriveKey']);
+  const chave = await crypto.subtle.deriveKey({name: 'PBKDF2', salt, iterations: ITER, hash: 'SHA-256'}, base, {name: 'AES-GCM', length: 256}, false, ['decrypt']);
+  const claro = await crypto.subtle.decrypt({name: 'AES-GCM', iv}, chave, dados);   // falha aqui se a senha estiver errada
+  const fluxo = new Blob([claro]).stream().pipeThrough(new DecompressionStream('gzip'));
+  return await new Response(fluxo).text();
+}
+async function entrar(senha, silencioso){
+  if (!window.crypto?.subtle || !window.DecompressionStream){ msg('Seu navegador não tem os recursos necessários. Use uma versão recente do Chrome, Edge, Safari ou Firefox.', true); return }
+  $('b').disabled = true; msg('Abrindo...');
+  try {
+    const html = await abrir(senha);
+    try { sessionStorage.setItem(K, senha) } catch {}
+    document.open(); document.write(html); document.close();
+  } catch (e) {
+    try { sessionStorage.removeItem(K) } catch {}
+    $('b').disabled = false;
+    if (e.name === 'OperationError') { msg(silencioso ? '' : 'Senha incorreta. Tente de novo.', !silencioso); $('s').select() }
+    else msg('Não foi possível carregar o conteúdo. Verifique a conexão e tente de novo.', true);
+  }
+}
+$('f').addEventListener('submit', e => { e.preventDefault(); entrar($('s').value) });
+$('ver').addEventListener('click', () => { const i = $('s'), v = i.type === 'password'; i.type = v ? 'text' : 'password'; $('ver').textContent = v ? 'Ocultar senha' : 'Mostrar senha' });
+let salva; try { salva = sessionStorage.getItem(K) } catch {}
+if (salva) entrar(salva, true);
+})();
+</script>
+</body>
+</html>
